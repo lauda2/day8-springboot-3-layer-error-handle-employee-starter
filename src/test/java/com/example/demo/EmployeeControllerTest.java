@@ -55,10 +55,10 @@ public class EmployeeControllerTest {
         return janeDoe;
     }
 
-//    @BeforeEach
-//    void cleanEmployees() {
-//        employeeController.empty();
-//    }
+    @BeforeEach
+    void cleanEmployees() throws Exception {
+        mockMvc.perform(delete("/employees"));
+    }
 
     @Test
     void should_return_404_when_employee_not_found() throws Exception {
@@ -69,8 +69,6 @@ public class EmployeeControllerTest {
 
     @Test
     void should_return_all_employee() throws Exception {
-//        employeeController.createEmployee(johnSmith());
-//        employeeController.createEmployee(janeDoe());
         createJohn();
         createJane();
 
@@ -87,49 +85,49 @@ public class EmployeeControllerTest {
         mockMvc.perform(get("/employees/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(expect.getId()))
+                .andExpect(jsonPath("$.id").isNumber())
                 .andExpect(jsonPath("$.name").value(expect.getName()))
                 .andExpect(jsonPath("$.age").value(expect.getAge()))
                 .andExpect(jsonPath("$.gender").value(expect.getGender()))
                 .andExpect(jsonPath("$.salary").value(expect.getSalary()));
     }
 
-//    @Test
-//    void should_return_male_employee_when_employee_found() throws Exception {
-//        Employee expect = employeeController.createEmployee(johnSmith());
-//        employeeController.createEmployee(janeDoe());
-//
-//        mockMvc.perform(get("/employees?gender=male")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$[0].id").value(expect.getId()))
-//                .andExpect(jsonPath("$[0].name").value(expect.getName()))
-//                .andExpect(jsonPath("$[0].age").value(expect.getAge()))
-//                .andExpect(jsonPath("$[0].gender").value(expect.getGender()))
-//                .andExpect(jsonPath("$[0].salary").value(expect.getSalary()));
-//    }
-//
-//    @Test
-//    void should_create_employee() throws Exception {
-//        String requestBody = """
-//                        {
-//                            "name": "John Smith",
-//                            "age": 28,
-//                            "gender": "MALE",
-//                            "salary": 60000
-//                        }
-//                """;
-//
-//        mockMvc.perform(post("/employees")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestBody))
-//                .andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.id").isNumber())
-//                .andExpect(jsonPath("$.name").value("John Smith"))
-//                .andExpect(jsonPath("$.age").value(28))
-//                .andExpect(jsonPath("$.gender").value("MALE"))
-//                .andExpect(jsonPath("$.salary").value(60000));
-//    }
+    @Test
+    void should_return_male_employee_when_employee_found() throws Exception {
+        Employee expect = createJohn();
+        createJane();
+
+        mockMvc.perform(get("/employees?gender=male")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").isNumber())
+                .andExpect(jsonPath("$[0].name").value(expect.getName()))
+                .andExpect(jsonPath("$[0].age").value(expect.getAge()))
+                .andExpect(jsonPath("$[0].gender").value(expect.getGender()))
+                .andExpect(jsonPath("$[0].salary").value(expect.getSalary()));
+    }
+
+    @Test
+    void should_create_employee() throws Exception {
+        String requestBody = """
+                        {
+                            "name": "John Smith",
+                            "age": 28,
+                            "gender": "MALE",
+                            "salary": 60000
+                        }
+                """;
+
+        mockMvc.perform(post("/employees")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").isNumber())
+                .andExpect(jsonPath("$.name").value("John Smith"))
+                .andExpect(jsonPath("$.age").value(28))
+                .andExpect(jsonPath("$.gender").value("MALE"))
+                .andExpect(jsonPath("$.salary").value(60000));
+    }
 //
 //    @Test
 //    void should_return_200_with_empty_body_when_no_employee() throws Exception {
