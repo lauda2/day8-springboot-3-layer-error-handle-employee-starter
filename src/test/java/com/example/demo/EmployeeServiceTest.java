@@ -55,5 +55,12 @@ public class EmployeeServiceTest {
         assertThrows(InvalidAgeEmployeeException.class, () -> employeeService.createEmployee(employee));
     }
 
+    @Test
+    public void should_throw_exception_when_employee_over_30_and_salary_lower_20000() throws InvalidAgeEmployeeException {
+        Employee employee = johnSmith();
+        employee.setAge(31);
+        employee.setSalary(10000);
+        assertThrows(InvalidAgeEmployeeException.class, () -> employeeService.createEmployee(employee));
+    }
 
 }
