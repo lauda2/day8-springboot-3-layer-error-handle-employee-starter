@@ -40,6 +40,13 @@ public class EmployeeService {
     }
 
     public Employee createEmployee(Employee employee) {
+        if (employee.getAge() == null) {
+            throw new InvalidAgeEmployeeException("employee age is null");
+        } else if (employee.getAge() > 65 || employee.getAge() < 18) {
+            throw new InvalidAgeEmployeeException("employee age is less than 18 or greater than 65!");
+        } else if (employee.getAge() > 30 && employee.getSalary() < 20000) {
+            throw new InvalidAgeEmployeeException("employee salary is less than 20000!");
+        }
         return employeeRepository.createEmployee(employee);
     }
 
