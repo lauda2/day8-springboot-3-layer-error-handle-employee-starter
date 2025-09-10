@@ -19,9 +19,6 @@ public class EmployeeControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-//    @Autowired
-//    private EmployeeController employeeController;
-
     private static Employee employee(String name, int age, String gender, double salary) {
         Employee e = new Employee();
         e.setName(name);
@@ -161,40 +158,40 @@ public class EmployeeControllerTest {
                 .andExpect(status().isNoContent());
     }
 
-//    @Test
-//    void should_status_200_when_update_employee() throws Exception {
-//        Employee expect = employeeController.createEmployee(johnSmith());
-//        String requestBody = """
-//                        {
-//                            "name": "John Smith",
-//                            "age": 29,
-//                            "gender": "MALE",
-//                            "salary": 65000.0
-//                        }
-//                """;
-//
-//        mockMvc.perform(put("/employees/" + expect.getId())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(requestBody)
-//                )
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.id").value(expect.getId()))
-//                .andExpect(jsonPath("$.age").value(29))
-//                .andExpect(jsonPath("$.salary").value(65000.0));
-//    }
-//
-//    @Test
-//    void should_status_200_and_return_paged_employee_list() throws Exception {
-//        employeeController.createEmployee(johnSmith());
-//        employeeController.createEmployee(janeDoe());
-//        employeeController.createEmployee(janeDoe());
-//        employeeController.createEmployee(janeDoe());
-//        employeeController.createEmployee(janeDoe());
-//        employeeController.createEmployee(janeDoe());
-//
-//        mockMvc.perform(get("/employees?page=1&size=5")
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()").value(5));
-//    }
+    @Test
+    void should_status_200_when_update_employee() throws Exception {
+        Employee expect = createJohn();
+        String requestBody = """
+                        {
+                            "name": "John Smith",
+                            "age": 29,
+                            "gender": "MALE",
+                            "salary": 65000.0
+                        }
+                """;
+
+        mockMvc.perform(put("/employees/" + 1)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(requestBody)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.age").value(29))
+                .andExpect(jsonPath("$.salary").value(65000.0));
+    }
+
+    @Test
+    void should_status_200_and_return_paged_employee_list() throws Exception {
+        createJohn();
+        createJane();
+        createJane();
+        createJane();
+        createJane();
+        createJane();
+
+        mockMvc.perform(get("/employees?page=1&size=5")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(5));
+    }
 }
