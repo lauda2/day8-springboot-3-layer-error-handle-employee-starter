@@ -162,7 +162,7 @@ public class EmployeeControllerTest {
 
     @Test
     void should_status_200_when_update_employee() throws Exception {
-        Employee expect = createJohn();
+        createJohn();
         String requestBody = """
                         {
                             "name": "John Smith",
