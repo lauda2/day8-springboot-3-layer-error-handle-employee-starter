@@ -9,10 +9,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -67,25 +69,30 @@ public class EmployeeServiceTest {
     @Test
     public void should_return_active_employee_when_create_employee() {
         Employee employee = johnSmith();
-        employeeService.createEmployee(employee);
         when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
+        employeeService.createEmployee(employee);
         assertTrue(employee.isActive());
     }
 
-//    @Test
-//    public void should_return_inactive_employee_when_delete_employee() {
-//        Employee employee = johnSmith();
-//        employee.setId(1);
-//        when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
-//        when(employeeRepository.deleteEmployee(anyInt()))
-//        employeeService.createEmployee(employee);
-//        employeeService.deleteEmployee(1);
-//        assertFalse(employee.isActive());
-//
-//        // assert employeeRepository toBeCalled
-//        expect()
-//    }
+    @Test
+    public void should_return_inactive_employee_when_delete_employee() {
+        Employee employee = johnSmith();
+        employee.setId(1);
+        when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
+        employeeService.createEmployee(employee);
+        employeeService.deleteEmployee(1);
+        verify(employeeRepository).deleteEmployee(1);
+    }
 
-
+    @Test
+    public void should_throw_error_when_update_inactive_employee() throws InvalidEmployeeException {
+        Employee employee = johnSmith();
+        employee.setId(1);
+        employee.setActive(false);
+        when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
+        when(employeeRepository.getEmployeeById(anyInt())).thenReturn(employee);
+        Employee updateEmployee = johnSmith();
+        assertThrows(ResponseStatusException.class, () -> employeeService.updateEmployee(1, updateEmployee));
+    }
 
 }
