@@ -1,10 +1,15 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.Employee;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @Repository
@@ -34,4 +39,22 @@ public class EmployeeRepository {
         employees.add(employee);
         return employee;
     }
+
+    public Employee updateEmployee(int id, Employee updatedEmployee) {
+        Employee found = getEmployeeById(id);
+        found.setName(updatedEmployee.getName());
+        found.setAge(updatedEmployee.getAge());
+        found.setGender(updatedEmployee.getGender());
+        found.setSalary(updatedEmployee.getSalary());
+        return found;
+    }
+
+    public void deleteEmployee(int id) {
+        employees.remove(getEmployeeById(id));
+    }
+
+    public void empty() {
+        employees.clear();
+    }
+
 }

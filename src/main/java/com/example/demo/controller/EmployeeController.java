@@ -4,16 +4,12 @@ import com.example.demo.entity.Employee;
 import com.example.demo.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-    private final List<Employee> employees = new ArrayList<>();
 
     private final EmployeeService employeeService;
 
@@ -40,41 +36,17 @@ public class EmployeeController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Employee updateEmployee(@PathVariable int id, @RequestBody Employee updatedEmployee) {
-        Employee found = null;
-        for (Employee e : employees) {
-            if (Objects.equals(e.getId(), id)) {
-                found = e;
-                break;
-            }
-        }
-        if (found == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
-        }
-        found.setName(updatedEmployee.getName());
-        found.setAge(updatedEmployee.getAge());
-        found.setGender(updatedEmployee.getGender());
-        found.setSalary(updatedEmployee.getSalary());
-        return found;
+        return employeeService.updateEmployee(id, updatedEmployee);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable int id) {
-        Employee found = null;
-        for (Employee e : employees) {
-            if (e.getId() == id) {
-                found = e;
-                break;
-            }
-        }
-        if (found == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found with id: " + id);
-        }
-        employees.remove(found);
+        employeeService.deleteEmployee(id);
     }
 
     @DeleteMapping
     public void empty() {
-        employees.clear();
+        employeeService.empty();
     }
 }
