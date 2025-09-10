@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import com.example.demo.entity.Employee;
+import com.example.demo.exception.InvalidEmployeeException;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -213,6 +214,23 @@ public class EmployeeControllerTest {
         createJohn();
         mockMvc.perform(delete("/employees/" + 1)).andExpect(status().isNoContent());
         mockMvc.perform(get("/employees/" + 1)).andExpect(status().isOk()).andExpect(jsonPath("$.active").value(false));
+    }
+
+    @Test
+    void should_throw_exception_when_employee_over_30_and_salary_lower_20000() throws Exception {
+        Gson gson = new Gson();
+        Employee johnSmith = johnSmith();
+        johnSmith.setAge(35);
+        johnSmith.setSalary(10000);
+        String john = gson.toJson(johnSmith);
+        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(john)).andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void should_throw_error_when_update_inactive_employee() throws Exception {
+        createJohn();
+        mockMvc.perform(delete("/employees/1").contentType(MediaType.APPLICATION_JSON));
+        mockMvc.perform(put("/employees/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
 
 }
