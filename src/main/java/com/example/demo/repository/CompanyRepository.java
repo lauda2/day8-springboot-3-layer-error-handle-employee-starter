@@ -2,7 +2,6 @@ package com.example.demo.repository;
 
 import com.example.demo.entity.Company;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,5 +16,11 @@ public class CompanyRepository {
 
     public List<Company> getCompanies() {
         return companies;
+    }
+
+    public Company createCompany(Company company) {
+        company.setId(1);
+        companies.add(company);
+        return company;
     }
 }

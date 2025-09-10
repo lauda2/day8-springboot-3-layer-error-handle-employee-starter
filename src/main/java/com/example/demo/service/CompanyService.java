@@ -2,9 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Company;
 import com.example.demo.repository.CompanyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +20,7 @@ public class CompanyService {
         companyRepository.empty();
     }
 
-    public List<Company> getCompanies(@RequestParam(required = false) Integer page, @RequestParam(required = false) Integer size) {
+    public List<Company> getCompanies(Integer page, Integer size) {
         List<Company> companies = companyRepository.getCompanies();
         if (page != null && size != null) {
             int start = (page - 1) * size;
@@ -33,5 +31,9 @@ public class CompanyService {
             return companies.subList(start, end);
         }
         return companies;
+    }
+
+    public Company createCompany(Company company) {
+        return companyRepository.createCompany(company);
     }
 }
