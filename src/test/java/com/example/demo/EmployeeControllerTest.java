@@ -233,4 +233,9 @@ public class EmployeeControllerTest {
         mockMvc.perform(put("/employees/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
 
+    @Test
+    void should_throw_error_when_get_non_exist_employee() throws Exception {
+        mockMvc.perform(get("/employees/2").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
+    }
+
 }
