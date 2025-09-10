@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.controller.CompanyController;
 import com.example.demo.entity.Company;
+import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CompanyControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
+    private Company createCompany(String name) throws Exception {
+        Gson gson = new Gson();
+        Company company = new Company();
+        company.setName(name);
+        String companyJson = gson.toJson(company);
+        MockHttpServletRequestBuilder request = post("/companies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(companyJson);
+
+        mockMvc.perform(request)
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("Spring"));
+
+        return company;
+    }
 
     @BeforeEach
     void cleanCompanies() throws Exception {
@@ -43,17 +61,15 @@ public class CompanyControllerTest {
                 .andExpect(jsonPath("$.name").value("Spring"));
     }
 
-//    @Test
-//    void should_return_all_companies_when_no_param() throws Exception {
-//        Company spring = new Company();
-//        spring.setName("Spring");
-//        companyController.createCompany(spring);
-//
-//        mockMvc.perform(get("/companies").contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()").value(1));
-//    }
-//
+    @Test
+    void should_return_all_companies_when_no_param() throws Exception {
+        createCompany("Spring");
+
+        mockMvc.perform(get("/companies").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1));
+    }
+
 //    @Test
 //    void should_return_company_when_get_id_found() throws Exception {
 //        Company spring = new Company();
