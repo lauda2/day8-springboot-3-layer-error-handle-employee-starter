@@ -150,4 +150,9 @@ public class CompanyControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void should_status_200_when_c() throws Exception {
+
+    }
 }

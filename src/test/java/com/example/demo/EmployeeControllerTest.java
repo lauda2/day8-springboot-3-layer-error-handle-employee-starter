@@ -195,4 +195,24 @@ public class EmployeeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(5));
     }
+
+    @Test
+    void should_return_active_employee_when_create_employee() throws Exception {
+        Gson gson = new Gson();
+        Employee janeDoe = janeDoe();
+        String jane = gson.toJson(janeDoe);
+        mockMvc.perform(post("/employees")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jane))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.active").value(true));
+    }
+
+    @Test
+    void should_return_inactive_employee_when_delete_employee() throws Exception {
+        createJohn();
+        mockMvc.perform(delete("/employees/" + 1)).andExpect(status().isNoContent());
+        mockMvc.perform(get("/employees/" + 1)).andExpect(status().isOk()).andExpect(jsonPath("$.active").value(false));
+    }
+
 }
