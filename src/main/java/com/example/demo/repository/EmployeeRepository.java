@@ -28,4 +28,10 @@ public class EmployeeRepository {
                 .findFirst()
                 .orElse(null);
     }
+
+    public Employee createEmployee(Employee employee) {
+        employee.setId(employees.size() + 1);
+        employees.add(employee);
+        return employee;
+    }
 }
