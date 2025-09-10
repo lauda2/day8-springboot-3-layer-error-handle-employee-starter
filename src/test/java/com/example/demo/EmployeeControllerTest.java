@@ -22,22 +22,34 @@ public class EmployeeControllerTest {
 //    @Autowired
 //    private EmployeeController employeeController;
 
-//    private static Employee employee(String name, int age, String gender, double salary) {
-//        Employee e = new Employee();
-//        e.setName(name);
-//        e.setAge(age);
-//        e.setGender(gender);
-//        e.setSalary(salary);
-//        return e;
-//    }
+    private static Employee employee(String name, int age, String gender, double salary) {
+        Employee e = new Employee();
+        e.setName(name);
+        e.setAge(age);
+        e.setGender(gender);
+        e.setSalary(salary);
+        return e;
+    }
 
-//    private static Employee johnSmith() {
-//        return employee("John Smith", 28, "MALE", 60000.0);
-//    }
-//
-//    private static Employee janeDoe() {
-//        return employee("Jane Doe", 22, "FEMALE", 60000.0);
-//    }
+    private static Employee johnSmith() {
+        return employee("John Smith", 28, "MALE", 60000.0);
+    }
+
+    private static Employee janeDoe() {
+        return employee("Jane Doe", 22, "FEMALE", 60000.0);
+    }
+
+    private void createJohn() throws Exception {
+        Gson gson = new Gson();
+        String john = gson.toJson(johnSmith());
+        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(john));
+    }
+
+    private void createJane() throws Exception {
+        Gson gson = new Gson();
+        String jane = gson.toJson(janeDoe());
+        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(jane));
+    }
 
 //    @BeforeEach
 //    void cleanEmployees() {
@@ -55,12 +67,8 @@ public class EmployeeControllerTest {
     void should_return_all_employee() throws Exception {
 //        employeeController.createEmployee(johnSmith());
 //        employeeController.createEmployee(janeDoe());
-        Gson gson = new Gson();
-        String john = gson.toJson(new Employee("John Smith", 28, "MALE", 60000.0));
-        String jane = gson.toJson(new Employee("Jane Doe", 22, "FEMALE", 60000.0));
-
-        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(john));
-        mockMvc.perform(post("/employees").contentType(MediaType.APPLICATION_JSON).content(jane));
+        createJohn();
+        createJane();
 
         mockMvc.perform(get("/employees")
                         .contentType(MediaType.APPLICATION_JSON))
