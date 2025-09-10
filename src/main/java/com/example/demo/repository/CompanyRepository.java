@@ -38,7 +38,12 @@ public class CompanyRepository {
 
     public Company updateCompany(int id, Company updatedCompany) {
         Company found = getCompanyById(id);
+        if (found == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Company not found");
         found.setName(updatedCompany.getName());
         return found;
+    }
+
+    public void deleteCompany(int id) {
+        companies.remove(getCompanyById(id));
     }
 }
