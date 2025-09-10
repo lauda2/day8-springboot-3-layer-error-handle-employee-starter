@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Service
 public class EmployeeService {
@@ -21,7 +22,14 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployees(String gender, Integer page, Integer size) {
-        return employeeRepository.getEmployees(gender, page, size);
+        Stream<Employee> stream = employeeRepository.getEmployees().stream();
+        if (gender != null) {
+            stream = stream.filter(employee -> employee.getGender().compareToIgnoreCase(gender) == 0);
+        }
+        if (page != null && size != null) {
+            stream = stream.skip((long) (page - 1) * size).limit(size);
+        }
+        return stream.toList();
     }
 
     public Employee getEmployeeById(int id) {
