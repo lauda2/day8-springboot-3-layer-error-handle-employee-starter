@@ -63,4 +63,11 @@ public class EmployeeServiceTest {
         assertThrows(InvalidAgeEmployeeException.class, () -> employeeService.createEmployee(employee));
     }
 
+    @Test
+    public void should_return_active_employee_when_create_employee() {
+        Employee employee = johnSmith();
+        when(employeeRepository.createEmployee(any(Employee.class))).thenReturn(employee);
+        assertTrue(employee.isActive());
+    }
+
 }

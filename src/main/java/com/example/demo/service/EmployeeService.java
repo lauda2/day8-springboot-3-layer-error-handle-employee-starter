@@ -1,15 +1,13 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Employee;
+import com.example.demo.exception.InvalidAgeEmployeeException;
 import com.example.demo.repository.EmployeeRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
@@ -51,7 +49,10 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(int id, Employee updatedEmployee) {
-        return employeeRepository.updateEmployee(id, updatedEmployee);
+        if (employeeRepository.getEmployeeById(id).isActive()) {
+            return employeeRepository.updateEmployee(id, updatedEmployee);
+        }
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
     }
 
     public void deleteEmployee(int id) {

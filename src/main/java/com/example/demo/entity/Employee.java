@@ -6,35 +6,53 @@ public class Employee {
     private Integer age;
     private String gender;
     private Double salary;
+    private boolean active = true;
 
     public Integer getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }
+
     public Integer getAge() {
         return age;
     }
+
     public String getGender() {
         return gender;
     }
+
     public Double getSalary() {
         return salary;
     }
+
+    public boolean isActive() {
+        return active;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public void setAge(int age) {
         this.age = age;
     }
+
     public void setGender(String gender) {
         this.gender = gender;
     }
+
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
