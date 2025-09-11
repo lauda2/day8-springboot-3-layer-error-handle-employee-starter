@@ -59,7 +59,6 @@ public class CompanyControllerTest {
 
         mockMvc.perform(request)
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Spring"));
     }
 
@@ -80,7 +79,6 @@ public class CompanyControllerTest {
                 .contentType(MediaType.APPLICATION_JSON);
         mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value(company.getName()));
     }
 
@@ -98,7 +96,6 @@ public class CompanyControllerTest {
 
         mockMvc.perform(request)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("Spring2"));
     }
 

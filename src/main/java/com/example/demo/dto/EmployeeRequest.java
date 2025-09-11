@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import com.example.demo.entity.Company;
+
 public class EmployeeRequest {
     public String getName() {
         return name;
@@ -37,4 +39,14 @@ public class EmployeeRequest {
     private Integer age;
     private String gender;
     private Double salary;
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
+
+    private Integer companyId;
 }
