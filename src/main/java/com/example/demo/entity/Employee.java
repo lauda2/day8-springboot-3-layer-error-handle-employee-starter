@@ -13,6 +13,8 @@ public class Employee {
     private String gender;
     private Double salary;
     private boolean active = true;
+    @Column(name = "company_id")
+    private Integer companyId;
 
     public Employee() {}
 
@@ -23,9 +25,6 @@ public class Employee {
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
     }
-
-    @Column(name = "company_id")
-    private Integer companyId;
 
     public Integer getId() {
         return id;

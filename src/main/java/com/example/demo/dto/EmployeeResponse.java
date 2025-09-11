@@ -2,6 +2,12 @@ package com.example.demo.dto;
 
 public class EmployeeResponse {
 
+    private Integer id;
+    private String name;
+    private Integer age;
+    private String gender;
+    private boolean active = true;
+
     public EmployeeResponse() {}
 
     public Integer getId() {
@@ -44,9 +50,4 @@ public class EmployeeResponse {
         this.active = active;
     }
 
-    private Integer id;
-    private String name;
-    private Integer age;
-    private String gender;
-    private boolean active = true;
 }

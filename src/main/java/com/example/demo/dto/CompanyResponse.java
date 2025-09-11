@@ -7,6 +7,8 @@ import java.util.List;
 public class CompanyResponse {
     private String name;
 
+    private List<Employee> employees;
+
     public String getName() {
         return name;
     }
@@ -22,6 +24,4 @@ public class CompanyResponse {
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
-
-    private List<Employee> employees;
 }

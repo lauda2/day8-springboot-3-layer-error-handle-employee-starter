@@ -3,6 +3,13 @@ package com.example.demo.dto;
 import com.example.demo.entity.Company;
 
 public class EmployeeRequest {
+
+    private String name;
+    private Integer age;
+    private String gender;
+    private Double salary;
+    private Integer companyId;
+
     public String getName() {
         return name;
     }
@@ -35,11 +42,6 @@ public class EmployeeRequest {
         this.salary = salary;
     }
 
-    private String name;
-    private Integer age;
-    private String gender;
-    private Double salary;
-
     public Integer getCompanyId() {
         return companyId;
     }
@@ -48,5 +50,4 @@ public class EmployeeRequest {
         this.companyId = companyId;
     }
 
-    private Integer companyId;
 }
