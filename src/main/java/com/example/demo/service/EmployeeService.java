@@ -3,6 +3,9 @@ package com.example.demo.service;
 import com.example.demo.entity.Employee;
 import com.example.demo.exception.InvalidEmployeeException;
 import com.example.demo.repository.EmployeeRepository;
+import com.example.demo.repository.IEmployeeRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -14,20 +17,29 @@ import java.util.stream.Stream;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final IEmployeeRepository repository;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, IEmployeeRepository repository) {
         this.employeeRepository = employeeRepository;
+        this.repository = repository;
     }
 
     public List<Employee> getEmployees(String gender, Integer page, Integer size) {
-        Stream<Employee> stream = employeeRepository.getEmployees().stream();
-        if (gender != null) {
-            stream = stream.filter(employee -> employee.getGender().compareToIgnoreCase(gender) == 0);
+        if (gender == null) {
+            if (page == null || size == null) {
+                return repository.findAll();
+            } else {
+                Pageable pageable = PageRequest.of(page - 1, size);
+                return repository.findAll(pageable).toList();
+            }
+        } else {
+            if (page == null || size == null) {
+                return repository.findEmployeesByGender(gender);
+            } else {
+                Pageable pageable = PageRequest.of(page - 1, size);
+                return repository.findEmployeesByGender(gender, pageable);
+            }
         }
-        if (page != null && size != null) {
-            stream = stream.skip((long) (page - 1) * size).limit(size);
-        }
-        return stream.toList();
     }
 
     public Employee getEmployeeById(int id) {
