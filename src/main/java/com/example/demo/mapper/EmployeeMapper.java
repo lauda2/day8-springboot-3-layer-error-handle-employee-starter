@@ -20,9 +20,9 @@ public class EmployeeMapper {
         return employees.stream().map(this::toResponse).toList();
     }
 
-    public EmployeeRequest toEntity(Employee employee) {
-        EmployeeRequest employeeRequest = new EmployeeRequest();
-        BeanUtils.copyProperties(employee, employeeRequest);
-        return employeeRequest;
+    public Employee toEntity(EmployeeRequest employeeRequest) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeRequest, employee);
+        return employee;
     }
 }

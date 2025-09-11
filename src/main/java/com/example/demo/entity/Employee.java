@@ -14,6 +14,8 @@ public class Employee {
     private Double salary;
     private boolean active = true;
 
+    public Employee() {}
+
     public Integer getCompanyId() {
         return companyId;
     }
