@@ -71,11 +71,13 @@ public class EmployeeService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
         }
         updatedEmployee.setId(id);
-        return employeeRepository.updateEmployee(id, updatedEmployee);
+        return repository.save(updatedEmployee);
     }
 
     public void deleteEmployee(int id) {
-        employeeRepository.deleteEmployee(id);
+        Employee employee = getEmployeeById(id);
+        employee.setActive(false);
+        repository.save(employee);
     }
 
     public void empty() {
