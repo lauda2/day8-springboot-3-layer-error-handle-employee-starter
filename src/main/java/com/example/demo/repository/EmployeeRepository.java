@@ -40,8 +40,5 @@ public class EmployeeRepository {
         getEmployeeById(id).setActive(false);
     }
 
-    public void empty() {
-        employees.clear();
-    }
 
 }

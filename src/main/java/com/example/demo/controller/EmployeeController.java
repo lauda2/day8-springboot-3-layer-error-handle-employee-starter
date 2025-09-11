@@ -45,8 +45,4 @@ public class EmployeeController {
         employeeService.deleteEmployee(id);
     }
 
-    @DeleteMapping
-    public void empty() {
-        employeeService.empty();
-    }
 }
