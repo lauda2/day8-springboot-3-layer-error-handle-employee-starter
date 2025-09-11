@@ -2,10 +2,13 @@ package com.example.demo.controller.advice;
 
 import com.example.demo.exception.InvalidEmployeeException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -18,14 +21,24 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidEmployeeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public InvalidEmployeeException invalidEmployeeExceptionHandler(Exception e) {
-        return new InvalidEmployeeException(e.getMessage());
+    public ResponseException invalidEmployeeExceptionHandler(Exception e) {
+        return new ResponseException(e.getMessage());
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus()
+    public ResponseException methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        String errorMsg = e.getBindingResult().getFieldErrors().stream()
+                .map(error -> error.getDefaultMessage())
+                .collect(Collectors.joining(" | "));
+
+        return new ResponseException(errorMsg);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Exception exceptionHandler(Exception e) {
-        return new Exception(e.getMessage());
+    public ResponseException exceptionHandler(Exception e) {
+        return new ResponseException(e.getMessage());
     }
 
 }
