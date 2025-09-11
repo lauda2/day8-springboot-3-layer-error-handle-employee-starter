@@ -2,10 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Company;
 import com.example.demo.service.CompanyService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;

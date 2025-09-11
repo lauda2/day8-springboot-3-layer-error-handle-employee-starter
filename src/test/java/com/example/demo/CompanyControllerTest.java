@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.controller.CompanyController;
 import com.example.demo.entity.Company;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
@@ -151,8 +150,4 @@ public class CompanyControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    void should_status_200_when_c() throws Exception {
-
-    }
 }

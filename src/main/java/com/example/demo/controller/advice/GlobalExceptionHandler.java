@@ -15,4 +15,10 @@ public class GlobalExceptionHandler {
         return new InvalidEmployeeException(e.getMessage());
     }
 
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public String exceptionHandler(Exception e) {
+        return e.getMessage();
+    }
+
 }
