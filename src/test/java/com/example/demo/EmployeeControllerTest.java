@@ -229,8 +229,11 @@ public class EmployeeControllerTest {
     @Test
     void should_throw_error_when_update_inactive_employee() throws Exception {
         createJohn();
+        Gson gson = new Gson();
+        Employee johnSmith = johnSmith();
+        String john = gson.toJson(johnSmith);
         mockMvc.perform(delete("/employees/1").contentType(MediaType.APPLICATION_JSON));
-        mockMvc.perform(put("/employees/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+        mockMvc.perform(put("/employees/1").contentType(MediaType.APPLICATION_JSON).content(john)).andExpect(status().isNotFound());
     }
 
     @Test
