@@ -14,6 +14,17 @@ public class Employee {
     private Double salary;
     private boolean active = true;
 
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
+
+    @Column(name = "company_id")
+    private Integer companyId;
+
     public Integer getId() {
         return id;
     }
