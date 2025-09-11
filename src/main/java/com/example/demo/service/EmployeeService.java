@@ -63,10 +63,15 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(int id, Employee updatedEmployee) {
-        if (employeeRepository.getEmployeeById(id).isActive()) {
-            return employeeRepository.updateEmployee(id, updatedEmployee);
+        Optional<Employee> employee = repository.findById(id);
+        if (employee.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
+        if (!employee.get().isActive()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
+        }
+        updatedEmployee.setId(id);
+        return employeeRepository.updateEmployee(id, updatedEmployee);
     }
 
     public void deleteEmployee(int id) {
