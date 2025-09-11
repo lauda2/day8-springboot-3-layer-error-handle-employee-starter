@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -43,10 +44,11 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeById(int id) {
-        if (employeeRepository.getEmployeeById(id) != null) {
-            return employeeRepository.getEmployeeById(id);
+        Optional<Employee> employee = repository.findById(id);
+        if (employee.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found");
+        return employee.get();
     }
 
     public Employee createEmployee(Employee employee) {
