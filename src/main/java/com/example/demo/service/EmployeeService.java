@@ -59,7 +59,7 @@ public class EmployeeService {
         } else if (employee.getAge() > 30 && employee.getSalary() < 20000) {
             throw new InvalidEmployeeException("employee salary is less than 20000!");
         }
-        return employeeRepository.createEmployee(employee);
+        return repository.save(employee);
     }
 
     public Employee updateEmployee(int id, Employee updatedEmployee) {
